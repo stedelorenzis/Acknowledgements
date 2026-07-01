@@ -342,9 +342,10 @@ function toggleMusic() {
         console.log("User interaction required for audio playback");
       });
   } else {
-    fadeAudio(0, 1500, () => {
-      audio.pause();
-    });
+    // Stop immediato senza latenza
+    clearInterval(fadeInterval);
+    audio.pause();
+    audio.volume = 1;
     icon.textContent = "▶";
     waves.classList.remove("active");
   }
