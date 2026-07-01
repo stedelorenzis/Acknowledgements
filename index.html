@@ -7,19 +7,20 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --bg-gradient: linear-gradient(180deg, #050505 0%, #121214 100%);
+    --bg-main: #030303;
     --text-main: #f5f5f7;
     --text-muted: #86868b;
-    --text-hint: #424245;
+    --text-hint: #3a3a3c;
+    --cubic-premium: cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   body {
     margin: 0;
-    background: var(--bg-gradient);
+    background-color: var(--bg-main);
     color: var(--text-main);
     font-family: "Plus Jakarta Sans", sans-serif;
     display: flex;
@@ -32,12 +33,12 @@
     overflow-x: hidden;
   }
 
-  /* # Sfondo con texture radiale soffusa */
+  /* # Sfondo radiale quasi impercettibile */
   body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.015) 0%, transparent 65%);
+    background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.012) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -51,134 +52,143 @@
     z-index: 1;
   }
 
-  /* # Animazione d'ingresso stile titoli di testa */
+  /* # Stile scritte: focus sull'eleganza tipografica dei titoli di testa */
   h1 {
     font-family: "Playfair Display", serif;
-    font-size: clamp(42px, 6vw, 68px);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    margin-bottom: 10px;
-    background: linear-gradient(to bottom, #ffffff 30%, #cccccc 100%);
+    font-size: clamp(38px, 5.5vw, 62px);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    background: linear-gradient(to bottom, #ffffff 50%, #b5b5b9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
-    transform: translateY(40px);
-    animation: cinematicEntrance 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(30px);
+    transition: opacity 2.5s var(--cubic-premium), transform 2.5s var(--cubic-premium);
   }
 
   p.subtitle {
-    font-size: clamp(16px, 2vw, 19px);
+    font-size: clamp(15px, 1.8vw, 18px);
     font-weight: 300;
     color: var(--text-muted);
+    letter-spacing: 0.01em;
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 580px;
     margin-bottom: 8px;
     opacity: 0;
-    transform: translateY(30px);
-    animation: cinematicEntrance 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.4s;
+    transform: translateY(20px);
+    transition: opacity 2s var(--cubic-premium), transform 2s var(--cubic-premium);
   }
 
-  /* # Micro hint interattivo discreto */
   .audio-hint {
-    font-size: 12px;
-    letter-spacing: 0.05em;
+    font-size: 11px;
+    letter-spacing: 0.08em;
     color: var(--text-hint);
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     text-transform: uppercase;
     opacity: 0;
-    animation: fadeInHint 1.5s ease forwards;
-    animation-delay: 1.8s;
-    transition: color 0.3s ease;
+    transition: opacity 1.5s ease, color 0.4s ease, transform 1s ease;
+  }
+
+  .audio-hint.reveal {
+    opacity: 1;
   }
 
   .audio-hint.playing {
-    color: transparent;
-    height: 0;
-    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(-10px);
     pointer-events: none;
   }
 
-  /* # Contenitore immagine con capienza premium e transizione morbida */
+  /* # Struttura monolitica per l'immagine memory */
   .image-wrapper {
     position: relative;
     width: 100%;
-    max-width: 680px;
-    border-radius: 24px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.85), 
-                inset 0 1px 0 rgba(255,255,255,0.05);
+    max-width: 660px;
+    border-radius: 20px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    box-shadow: 0 40px 130px rgba(0,0,0,0.9), 
+                inset 0 1px 0 rgba(255,255,255,0.03);
     opacity: 0;
-    transform: translateY(50px) scale(0.97);
-    animation: cinematicEntrance 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.9s;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    transform: translateY(60px) scale(0.96);
+    transition: opacity 3s var(--cubic-premium), 
+                transform 3s var(--cubic-premium), 
+                box-shadow 0.6s ease;
     overflow: hidden;
   }
 
+  /* Classe di trigger per l'ingresso coordinato */
+  .visible {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
   .image-wrapper:hover {
-    box-shadow: 0 50px 140px rgba(0,0,0,0.95), 
-                0 0 50px rgba(255,255,255,0.01);
+    box-shadow: 0 60px 150px rgba(0,0,0,0.95), 
+                0 0 40px rgba(255,255,255,0.01);
   }
 
   img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 16px;
-    filter: grayscale(25%) brightness(90%);
-    transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 14px;
+    filter: grayscale(40%) brightness(85%);
+    transition: filter 1.2s var(--cubic-premium);
   }
 
   .image-wrapper:hover img {
     filter: grayscale(0%) brightness(100%);
   }
 
-  /* # Player audio minimale (Isola in basso) */
+  /* # Player audio minimale (Dynamic Floating Island) */
   .music-player {
     position: fixed;
-    bottom: 35px;
-    right: 35px;
+    bottom: 40px;
+    right: 40px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 22px;
+    gap: 14px;
+    padding: 12px 24px;
     border-radius: 100px;
-    background: rgba(10, 10, 10, 0.6);
+    background: rgba(8, 8, 8, 0.5);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     user-select: none;
     z-index: 10;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     opacity: 0;
-    animation: fadeInHint 1.5s ease forwards;
-    animation-delay: 1.2s;
+    transform: translateY(20px);
+    transition: opacity 2s var(--cubic-premium), 
+                transform 2s var(--cubic-premium), 
+                border-color 0.4s ease, 
+                background 0.4s ease;
   }
 
   .music-player:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.18);
-    background: rgba(15, 15, 15, 0.85);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(12, 12, 14, 0.8);
   }
 
   #icon {
-    font-size: 11px;
+    font-size: 10px;
     width: 12px;
     display: inline-block;
     text-align: center;
+    color: var(--text-main);
   }
 
   .player-text {
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     font-weight: 500;
     color: var(--text-muted);
     transition: color 0.3s ease;
@@ -200,11 +210,11 @@
     height: 2px;
     background: #fff;
     border-radius: 1px;
-    transition: height 0.4s ease;
+    transition: height 0.5s ease;
   }
 
   .waves.active span {
-    animation: wave 1.2s infinite ease-in-out;
+    animation: wave 1.4s infinite ease-in-out;
   }
   .waves.active span:nth-child(1) { animation-delay: 0.1s; }
   .waves.active span:nth-child(2) { animation-delay: 0.3s; }
@@ -215,26 +225,14 @@
     50% { height: 14px; }
   }
 
-  /* # Keyframes per l'apertura fluida */
-  @keyframes cinematicEntrance {
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  @keyframes fadeInHint {
-    to { opacity: 1; }
-  }
-
-  /* Mobile responsive layout */
+  /* Mobile layout styling */
   @media (max-width: 768px) {
     .music-player {
-      bottom: 25px;
+      bottom: 30px;
       right: 50%;
-      transform: translateX(50%);
+      transform: translateX(50%) translateY(20px);
     }
-    .music-player:hover {
+    .music-player.visible:hover {
       transform: translateX(50%) translateY(-2px);
     }
   }
@@ -244,8 +242,8 @@
 <body>
 
 <div class="container">
-  <h1>Acknowledgements</h1>
-  <p class="subtitle">Acknowledgements will arrive soon…</p>
+  <h1 id="title">Acknowledgements</h1>
+  <p class="subtitle" id="subtitle">Acknowledgements will arrive soon…</p>
   <div class="audio-hint" id="hint-text">↳ Click the player to enable sound</div>
 
   <div class="image-wrapper" id="tilt-card">
@@ -253,7 +251,7 @@
   </div>
 </div>
 
-<div class="music-player" onclick="toggleMusic()">
+<div class="music-player" id="player" onclick="toggleMusic()">
   <span id="icon">▶</span>
   <span class="player-text">Memory</span>
   <div class="waves" id="waves">
@@ -268,16 +266,37 @@
 <script>
 let isPlaying = false;
 let fadeInterval = null;
+
 const audio = document.getElementById("bgmusic");
 const icon = document.getElementById("icon");
 const waves = document.getElementById("waves");
 const hintText = document.getElementById("hint-text");
 
-// # Gestione Fade-In / Fade-Out reale del volume
+// # REGIA CINEMATOGRAFICA (JS Sequenced Entrance)
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('title').classList.add('visible');
+  }, 400); // 1. Appare il titolo sfumato dal nero
+
+  setTimeout(() => {
+    document.getElementById('subtitle').classList.add('visible');
+  }, 1200); // 2. Appare il sottotitolo
+
+  setTimeout(() => {
+    document.getElementById('player').classList.add('visible');
+    hintText.classList.add('reveal');
+  }, 2200); // 3. Entra l'interfaccia dell'audio
+
+  setTimeout(() => {
+    document.getElementById('tilt-card').classList.add('visible');
+  }, 3000); // 4. Sipario finale: la memoria del laboratorio sale lentamente
+});
+
+// # FADE AUDIO CINEMATICO (Curva di volume morbida)
 function fadeAudio(targetVolume, duration, callback) {
   clearInterval(fadeInterval);
   const startVolume = audio.volume;
-  const steps = 20;
+  const steps = 30; // Più step per maggiore fluidità nel fade
   const stepTime = duration / steps;
   const volumeStep = (targetVolume - startVolume) / steps;
   let currentStep = 0;
@@ -286,7 +305,6 @@ function fadeAudio(targetVolume, duration, callback) {
     currentStep++;
     let nextVolume = startVolume + (volumeStep * currentStep);
     
-    // Evita overflow nei limiti dell'oggetto audio
     if (nextVolume > 1) nextVolume = 1;
     if (nextVolume < 0) nextVolume = 0;
     
@@ -305,7 +323,7 @@ function toggleMusic() {
     audio.volume = 0;
     audio.play()
       .then(() => {
-        fadeAudio(1, 1500); // Dissolvenza in 1.5 secondi
+        fadeAudio(1, 2500); // Fade-in esteso a 2.5 secondi (effetto dissolvenza da film)
         icon.textContent = "❚❚";
         waves.classList.add("active");
         hintText.classList.add("playing");
@@ -314,8 +332,7 @@ function toggleMusic() {
         console.log("User interaction required for audio playback");
       });
   } else {
-    // Dissolvenza in uscita prima di mettere in pausa
-    fadeAudio(0, 1000, () => {
+    fadeAudio(0, 1500, () => {
       audio.pause();
     });
     icon.textContent = "▶";
@@ -324,12 +341,12 @@ function toggleMusic() {
   isPlaying = !isPlaying;
 }
 
-// # Parallasse desktop cinematico (sensibilità ridotta a 70 per massima stabilità)
+// # PARALLASSE DESKTOP STABILIZZATO
 const card = document.getElementById('tilt-card');
 if (window.innerWidth > 768) {
   document.addEventListener('mousemove', (e) => {
-    const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
-    const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
+    const xAxis = (window.innerWidth / 2 - e.pageX) / 75;
+    const yAxis = (window.innerHeight / 2 - e.pageY) / 75;
     card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
   });
   
