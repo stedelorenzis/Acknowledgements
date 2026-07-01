@@ -11,8 +11,8 @@
 <style>
   body {
     margin: 0;
-    background: linear-gradient(180deg, #0f0f0f, #1c1c1c);
-    color: #f5f5f5;
+    background: linear-gradient(180deg, #f5f2ea, #e9e4d8);
+    color: #1a1a1a;
     font-family: "Inter", sans-serif;
     display: flex;
     flex-direction: column;
@@ -20,55 +20,87 @@
     justify-content: center;
     min-height: 100vh;
     text-align: center;
+    overflow-x: hidden;
   }
 
   h1 {
     font-family: "Playfair Display", serif;
-    font-size: 48px;
-    margin-bottom: 20px;
+    font-size: 52px;
+    margin-bottom: 15px;
     letter-spacing: 1px;
-    animation: fadeIn 2s ease-in-out;
+    animation: fadeIn 1.8s ease-in-out;
   }
 
   p {
     font-size: 18px;
-    opacity: 0.85;
+    opacity: 0.8;
     margin-bottom: 30px;
-    animation: fadeIn 3s ease-in-out;
+    animation: fadeIn 2.4s ease-in-out;
   }
 
   img {
-    max-width: 600px;
+    max-width: 650px;
     width: 90%;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    animation: fadeIn 4s ease-in-out;
+    border-radius: 18px;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+    animation: fadeIn 3s ease-in-out;
   }
 
-  .music-btn {
-    margin-top: 25px;
-    padding: 12px 22px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.05);
-    color: #f5f5f5;
-    font-family: "Inter", sans-serif;
-    font-size: 14px;
-    letter-spacing: 1px;
-    border-radius: 12px;
-    cursor: pointer;
+  /* MUSIC PLAYER */
+  .music-player {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.05);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
     transition: all 0.3s ease;
+    user-select: none;
   }
 
-  .music-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+  .music-player:hover {
+    transform: scale(1.05);
+    background: rgba(0,0,0,0.08);
   }
 
-  .music-btn:active {
-    transform: scale(0.98);
+  #icon {
+    font-size: 14px;
   }
 
+  .waves {
+    display: flex;
+    gap: 3px;
+    height: 12px;
+    align-items: flex-end;
+    opacity: 0.4;
+  }
+
+  .waves span {
+    width: 2px;
+    height: 4px;
+    background: #111;
+    animation: wave 1s infinite ease-in-out;
+  }
+
+  .waves span:nth-child(2) { animation-delay: 0.2s; }
+  .waves span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes wave {
+    0%, 100% { height: 4px; }
+    50% { height: 14px; }
+  }
+
+  .waves.active {
+    opacity: 1;
+  }
+
+  /* FADE IN */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -79,19 +111,44 @@
 
 <body>
 
-  <h1>Acknowledgements</h1>
+<!-- MUSIC PLAYER -->
+<div class="music-player" onclick="toggleMusic()">
+  <span id="icon">▶</span>
+  <div class="waves" id="waves">
+    <span></span><span></span><span></span>
+  </div>
+</div>
 
-  <p>Acknowledgements will arrive soon…</p>
+<h1>Acknowledgements</h1>
 
-  <img src="image.jpg" alt="Laboratory memory">
+<p>Acknowledgements will arrive soon…</p>
 
-  <audio id="bgmusic" loop>
-    <source src="coffee.mp3" type="audio/mpeg">
-  </audio>
+<img src="image.jpg" alt="Laboratory memory">
 
-  <button class="music-btn" onclick="document.getElementById('bgmusic').play()">
-    ▶ Play music
-  </button>
+<!-- AUDIO -->
+<audio id="bgmusic" loop>
+  <source src="coffee.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let isPlaying = false;
+const audio = document.getElementById("bgmusic");
+const icon = document.getElementById("icon");
+const waves = document.getElementById("waves");
+
+function toggleMusic() {
+  if (!isPlaying) {
+    audio.play();
+    icon.textContent = "❚❚";
+    waves.classList.add("active");
+  } else {
+    audio.pause();
+    icon.textContent = "▶";
+    waves.classList.remove("active");
+  }
+  isPlaying = !isPlaying;
+}
+</script>
 
 </body>
 </html>
