@@ -2,129 +2,237 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acknowledgements</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #16161a 100%);
+    --accent-glow: rgba(255, 255, 255, 0.03);
+    --text-main: #f5f5f7;
+    --text-muted: #86868b;
+  }
+
   body {
     margin: 0;
-    background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
-    color: #f5f5f5;
-    font-family: "Inter", sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    font-family: "Plus Jakarta Sans", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    text-align: center;
+    box-sizing: border-box;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  /* Sfondo cinematico sottile */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.02) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
   }
 
   h1 {
     font-family: "Playfair Display", serif;
-    font-size: 52px;
-    margin-bottom: 15px;
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    background: linear-gradient(to bottom, #ffffff 40%, #a1a1a6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     opacity: 0;
-    animation: fadeIn 1.5s ease forwards;
+    transform: translateY(30px);
+    animation: cubicFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   p {
-    font-size: 18px;
+    font-size: clamp(16px, 2vw, 19px);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 45px;
     opacity: 0;
-    margin-bottom: 30px;
-    animation: fadeIn 2.2s ease forwards;
-    animation-delay: 0.4s;
+    transform: translateY(25px);
+    animation: cubicFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.2s;
+  }
+
+  /* Contenitore Immagine con effetto Glow e Parallasse Mouse */
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    border-radius: 24px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 100px rgba(0,0,0,0.8), 
+                inset 0 1px 0 rgba(255,255,255,0.1);
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    animation: cubicFadeIn 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.5s;
+    transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+
+  .image-wrapper:hover {
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9), 
+                0 0 40px rgba(255,255,255,0.02);
   }
 
   img {
-    max-width: 650px;
-    width: 90%;
-    border-radius: 18px;
-    box-shadow: 0 25px 70px rgba(0,0,0,0.5);
-    opacity: 0;
-    animation: fadeIn 3s ease forwards;
-    animation-delay: 0.9s;
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    filter: grayscale(15%) brightness(95%);
+    transition: filter 0.5s ease;
   }
 
-  /* 🎧 MUSIC PLAYER */
+  .image-wrapper:hover img {
+    filter: grayscale(0%) brightness(100%);
+  }
+
+  /* 🎧 MUSIC PLAYER (Stile Isola Dinamica) */
   .music-player {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    bottom: 30px; /* Spostato in basso per migliore UX da mobile */
+    right: 30px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.12);
+    gap: 12px;
+    padding: 12px 20px;
+    border-radius: 100px;
+    background: rgba(15, 15, 15, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     user-select: none;
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   }
 
   .music-player:hover {
-    transform: scale(1.05);
-    background: rgba(255,255,255,0.1);
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(20, 20, 20, 0.9);
   }
 
   #icon {
-    font-size: 14px;
+    font-size: 12px;
+    width: 14px;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .player-text {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+  }
+  
+  .music-player:hover .player-text {
+    color: var(--text-main);
   }
 
   .waves {
     display: flex;
     gap: 3px;
-    height: 12px;
+    height: 14px;
     align-items: flex-end;
-    opacity: 0.4;
   }
 
   .waves span {
     width: 2px;
-    height: 4px;
+    height: 3px;
     background: #fff;
-    animation: wave 1s infinite ease-in-out;
+    border-radius: 1px;
+    transition: height 0.3s ease;
   }
 
-  .waves span:nth-child(2) { animation-delay: 0.2s; }
-  .waves span:nth-child(3) { animation-delay: 0.4s; }
+  /* Animazione onde solo quando attivo */
+  .waves.active span {
+    animation: wave 1.2s infinite ease-in-out;
+  }
+  .waves.active span:nth-child(1) { animation-delay: 0.1s; }
+  .waves.active span:nth-child(2) { animation-delay: 0.4s; }
+  .waves.active span:nth-child(3) { animation-delay: 0.2s; }
 
   @keyframes wave {
-    0%, 100% { height: 4px; }
+    0%, 100% { height: 3px; }
     50% { height: 14px; }
   }
 
-  .waves.active {
-    opacity: 1;
+  /* 🎬 FADE IN CON CURVA PREMIUM */
+  @keyframes cubicFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
-  /* 🎬 FADE */
-  @keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-    from { opacity: 0; transform: translateY(20px); }
+  /* Responsive adjustment */
+  @media (max-width: 768px) {
+    .music-player {
+      bottom: 20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+    .music-player:hover {
+      transform: translateX(50%) translateY(-2px);
+    }
   }
 </style>
 </head>
 
 <body>
 
-<!-- 🎧 MUSIC -->
+<div class="container">
+  <h1>Acknowledgements</h1>
+  <p>Acknowledgements will arrive soon…</p>
+
+  <!-- Wrapper per effetti avanzati sulla foto -->
+  <div class="image-wrapper" id="tilt-card">
+    <img src="image.jpg" alt="Laboratory memory">
+  </div>
+</div>
+
+<!-- 🎧 MUSIC PLAYER -->
 <div class="music-player" onclick="toggleMusic()">
   <span id="icon">▶</span>
+  <span class="player-text">Ambient</span>
   <div class="waves" id="waves">
     <span></span><span></span><span></span>
   </div>
 </div>
-
-<h1>Acknowledgements</h1>
-
-<p>Acknowledgements will arrive soon…</p>
-
-<img src="image.jpg" alt="Laboratory memory">
 
 <audio id="bgmusic" loop>
   <source src="coffee.mp3" type="audio/mpeg">
@@ -138,7 +246,7 @@ const waves = document.getElementById("waves");
 
 function toggleMusic() {
   if (!isPlaying) {
-    audio.play();
+    audio.play().catch(e => console.log("Audio playback personal block bypass"));
     icon.textContent = "❚❚";
     waves.classList.add("active");
   } else {
@@ -147,6 +255,21 @@ function toggleMusic() {
     waves.classList.remove("active");
   }
   isPlaying = !isPlaying;
+}
+
+// 🕶️ EFFETTO PARALLASSE SULLA FOTO (3D Tilt controllato dal mouse)
+const card = document.getElementById('tilt-card');
+if (window.innerWidth > 768) {
+  document.addEventListener('mousemove', (e) => {
+    const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+    const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+    card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
+  });
+  
+  // Reset quando il mouse esce
+  document.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+  });
 }
 </script>
 
