@@ -20,22 +20,50 @@
     justify-content: center;
     min-height: 100vh;
     text-align: center;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
+  /* 🌟 PARTICELLE */
+  .particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particles span {
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 3px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 50%;
+    animation: float 12s linear infinite;
+  }
+
+  @keyframes float {
+    from { transform: translateY(100vh); opacity: 0; }
+    to { transform: translateY(-10vh); opacity: 1; }
+  }
+
+  /* 🎬 FADE SEQUENZIALE */
   h1 {
     font-family: "Playfair Display", serif;
     font-size: 52px;
     margin-bottom: 15px;
-    letter-spacing: 1px;
-    animation: fadeIn 1.8s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
   }
 
   p {
     font-size: 18px;
-    opacity: 0.8;
+    opacity: 0;
     margin-bottom: 30px;
-    animation: fadeIn 2.4s ease-in-out;
+    animation: fadeIn 2.5s ease forwards;
+    animation-delay: 0.6s;
   }
 
   img {
@@ -43,10 +71,17 @@
     width: 90%;
     border-radius: 18px;
     box-shadow: 0 25px 70px rgba(0,0,0,0.15);
-    animation: fadeIn 3s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 3.5s ease forwards;
+    animation-delay: 1.2s;
   }
 
-  /* MUSIC PLAYER */
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
+  }
+
+  /* 🎧 MUSIC */
   .music-player {
     position: fixed;
     top: 20px;
@@ -61,16 +96,10 @@
     border: 1px solid rgba(0,0,0,0.1);
     cursor: pointer;
     transition: all 0.3s ease;
-    user-select: none;
   }
 
   .music-player:hover {
     transform: scale(1.05);
-    background: rgba(0,0,0,0.08);
-  }
-
-  #icon {
-    font-size: 14px;
   }
 
   .waves {
@@ -96,22 +125,34 @@
     50% { height: 14px; }
   }
 
-  .waves.active {
-    opacity: 1;
+  .waves.active { opacity: 1; }
+
+  /* 📜 HIDDEN SECTION */
+  .extra {
+    margin-top: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.6;
+    text-decoration: underline;
   }
 
-  /* FADE IN */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .hidden {
+    display: none;
+    margin-top: 15px;
+    max-width: 600px;
+    font-size: 15px;
+    opacity: 0.85;
   }
+
 </style>
-
 </head>
 
 <body>
 
-<!-- MUSIC PLAYER -->
+<!-- 🌟 PARTICLE BACKGROUND -->
+<div class="particles" id="particles"></div>
+
+<!-- 🎧 MUSIC -->
 <div class="music-player" onclick="toggleMusic()">
   <span id="icon">▶</span>
   <div class="waves" id="waves">
@@ -125,12 +166,20 @@
 
 <img src="image.jpg" alt="Laboratory memory">
 
-<!-- AUDIO -->
+<div class="extra" onclick="toggleExtra()">Extended acknowledgements</div>
+
+<div class="hidden" id="extraText">
+  This page exists as a small space beyond the thesis limits.
+  A place for all the people and moments that could not fit on paper,
+  but belong fully to this journey.
+</div>
+
 <audio id="bgmusic" loop>
   <source src="coffee.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+/* 🎧 MUSIC */
 let isPlaying = false;
 const audio = document.getElementById("bgmusic");
 const icon = document.getElementById("icon");
@@ -147,6 +196,23 @@ function toggleMusic() {
     waves.classList.remove("active");
   }
   isPlaying = !isPlaying;
+}
+
+/* 📜 EXTRA SECTION */
+function toggleExtra() {
+  const el = document.getElementById("extraText");
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+
+/* ✨ PARTICLES */
+const container = document.getElementById("particles");
+
+for (let i = 0; i < 30; i++) {
+  const s = document.createElement("span");
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = (6 + Math.random() * 10) + "s";
+  s.style.opacity = Math.random();
+  container.appendChild(s);
 }
 </script>
 
