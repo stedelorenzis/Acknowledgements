@@ -121,7 +121,7 @@
     overflow: hidden;
   }
 
-  /* Classe di trigger per l'ingresso coordinato */
+  /* # Classe di trigger ottimizzata per coerenza di timing globale */
   .visible {
     opacity: 1 !important;
     transform: translateY(0) scale(1) !important;
@@ -244,10 +244,10 @@
 <div class="container">
   <h1 id="title">Acknowledgements</h1>
   <p class="subtitle" id="subtitle">Acknowledgements will arrive soon…</p>
-  <div class="audio-hint" id="hint-text">↳ Click the player to enable sound</div>
+  <div class="audio-hint" id="hint-text">↳ Tap for audio</div>
 
   <div class="image-wrapper" id="tilt-card">
-    <img src="image.jpg" alt="Laboratory memory">
+    <img src="image.png" alt="Laboratory memory">
   </div>
 </div>
 
@@ -276,27 +276,27 @@ const hintText = document.getElementById("hint-text");
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('title').classList.add('visible');
-  }, 400); // 1. Appare il titolo sfumato dal nero
+  }, 400);
 
   setTimeout(() => {
     document.getElementById('subtitle').classList.add('visible');
-  }, 1200); // 2. Appare il sottotitolo
+  }, 1200);
 
   setTimeout(() => {
     document.getElementById('player').classList.add('visible');
     hintText.classList.add('reveal');
-  }, 2200); // 3. Entra l'interfaccia dell'audio
+  }, 2200);
 
   setTimeout(() => {
     document.getElementById('tilt-card').classList.add('visible');
-  }, 3000); // 4. Sipario finale: la memoria del laboratorio sale lentamente
+  }, 3000);
 });
 
 // # FADE AUDIO CINEMATICO (Curva di volume morbida)
 function fadeAudio(targetVolume, duration, callback) {
   clearInterval(fadeInterval);
   const startVolume = audio.volume;
-  const steps = 30; // Più step per maggiore fluidità nel fade
+  const steps = 30;
   const stepTime = duration / steps;
   const volumeStep = (targetVolume - startVolume) / steps;
   let currentStep = 0;
@@ -323,7 +323,7 @@ function toggleMusic() {
     audio.volume = 0;
     audio.play()
       .then(() => {
-        fadeAudio(1, 2500); // Fade-in esteso a 2.5 secondi (effetto dissolvenza da film)
+        fadeAudio(1, 2500);
         icon.textContent = "❚❚";
         waves.classList.add("active");
         hintText.classList.add("playing");
