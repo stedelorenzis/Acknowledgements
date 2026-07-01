@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acknowledgements</title>
+<meta name="description" content="Acknowledgements page — coming soon.">
+
+<!-- Social preview -->
+<meta property="og:title" content="Acknowledgements">
+<meta property="og:description" content="The acknowledgements are coming — for now, enjoy the view and the coffee.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +25,8 @@
     --cubic-premium: cubic-bezier(0.25, 1, 0.5, 1);
   }
 
+  * { box-sizing: border-box; }
+
   body {
     margin: 0;
     background-color: var(--bg-main);
@@ -28,7 +37,6 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    box-sizing: border-box;
     padding: 60px 20px;
     overflow-x: hidden;
   }
@@ -40,6 +48,17 @@
     background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.012) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
+  }
+
+  /* subtle film-grain texture, purely decorative */
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   .container {
@@ -88,12 +107,12 @@
     border: 1px solid rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    box-shadow: 0 40px 130px rgba(0,0,0,0.9), 
+    box-shadow: 0 40px 130px rgba(0,0,0,0.9),
                 inset 0 1px 0 rgba(255,255,255,0.03);
     opacity: 0;
     transform: translateY(60px) scale(0.96);
-    transition: opacity 3s var(--cubic-premium), 
-                transform 3s var(--cubic-premium), 
+    transition: opacity 3s var(--cubic-premium),
+                transform 3s var(--cubic-premium),
                 box-shadow 0.6s ease;
     overflow: hidden;
   }
@@ -118,6 +137,16 @@
 
   .image-wrapper:hover img {
     transform: scale(1.02);
+  }
+
+  .caption {
+    margin-top: 18px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    opacity: 0;
+    transition: opacity 2s var(--cubic-premium) 3.4s;
   }
 
   .player-group {
@@ -168,9 +197,9 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 2s var(--cubic-premium), 
-                transform 2s var(--cubic-premium), 
-                border-color 0.4s ease, 
+    transition: opacity 2s var(--cubic-premium),
+                transform 2s var(--cubic-premium),
+                border-color 0.4s ease,
                 background 0.4s ease;
   }
 
@@ -178,6 +207,18 @@
     transform: translateY(-2px);
     border-color: rgba(255, 255, 255, 0.15);
     background: rgba(12, 12, 14, 0.8);
+  }
+
+  /* visible keyboard focus */
+  .music-player:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 3px;
+  }
+
+  .music-player.disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   #icon {
@@ -196,7 +237,7 @@
     color: var(--text-muted);
     transition: color 0.3s ease;
   }
-  
+
   .music-player:hover .player-text {
     color: var(--text-main);
   }
@@ -228,6 +269,28 @@
     50% { height: 14px; }
   }
 
+  /* respect users who've asked for less motion */
+  @media (prefers-reduced-motion: reduce) {
+    h1, p.subtitle, .image-wrapper, .music-player, .audio-hint, .caption {
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .waves.active span { animation: none; height: 8px; }
+  }
+
+  /* no-JS fallback: reveal everything immediately */
+  html.no-js h1,
+  html.no-js p.subtitle,
+  html.no-js .image-wrapper,
+  html.no-js .music-player,
+  html.no-js .caption {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html.no-js .music-player { display: none; }
+  html.no-js .audio-hint { display: none; }
+
   @media (max-width: 768px) {
     .player-group {
       bottom: 30px;
@@ -250,32 +313,47 @@
 
 <body>
 
+<script>document.documentElement.classList.add('js');document.documentElement.classList.remove('no-js');</script>
+<noscript><style>html:not(.js){} </style></noscript>
+
+<div class="grain" aria-hidden="true"></div>
+
 <div class="container">
   <h1 id="title">Acknowledgements</h1>
-  <p class="subtitle" id="subtitle">Acknowledgements coming soon…</p>
+  <p class="subtitle" id="subtitle">The acknowledgements are on their way — check back soon.</p>
 
   <div class="image-wrapper" id="tilt-card">
-    <img src="image.png" alt="Goku and his Speedy">
+    <img src="image.png" alt="A relaxed illustration of Goku resting on his flying cloud, Nimbus">
   </div>
+  <p class="caption" id="caption">Printed early. Written soon.</p>
 </div>
 
 <div class="player-group">
   <div class="audio-hint" id="hint-text">↳ Play Context</div>
-  
-  <div class="music-player" id="player" onclick="toggleMusic()">
-    <span id="icon">▶</span>
+
+  <div class="music-player"
+       id="player"
+       role="button"
+       tabindex="0"
+       aria-pressed="false"
+       aria-label="Play background music">
+    <span id="icon" aria-hidden="true">▶</span>
     <span class="player-text">Lo-Fi Café</span>
-    <div class="waves" id="waves">
+    <div class="waves" id="waves" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
   </div>
 </div>
 
-<audio id="bgmusic" loop>
+<audio id="bgmusic" loop preload="none">
   <source src="coffee.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+// mark JS as available before anything else runs
+document.documentElement.classList.remove('no-js');
+document.documentElement.classList.add('js');
+
 let isPlaying = false;
 let fadeInterval = null;
 
@@ -283,24 +361,24 @@ const audio = document.getElementById("bgmusic");
 const icon = document.getElementById("icon");
 const waves = document.getElementById("waves");
 const hintText = document.getElementById("hint-text");
+const player = document.getElementById("player");
 
 window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => document.getElementById('title').classList.add('visible'), 400);
+  setTimeout(() => document.getElementById('subtitle').classList.add('visible'), 1200);
   setTimeout(() => {
-    document.getElementById('title').classList.add('visible');
-  }, 400);
-
-  setTimeout(() => {
-    document.getElementById('subtitle').classList.add('visible');
-  }, 1200);
-
-  setTimeout(() => {
-    document.getElementById('player').classList.add('visible');
+    player.classList.add('visible');
     hintText.classList.add('reveal');
   }, 2200);
+  setTimeout(() => document.getElementById('tilt-card').classList.add('visible'), 3000);
+  setTimeout(() => document.getElementById('caption').classList.add('visible'), 3400);
+});
 
-  setTimeout(() => {
-    document.getElementById('tilt-card').classList.add('visible');
-  }, 3000);
+// if the audio file can't load, disable the player instead of leaving a dead button
+audio.addEventListener('error', () => {
+  player.classList.add('disabled');
+  player.setAttribute('aria-label', 'Music unavailable');
+  hintText.textContent = '↳ Track unavailable';
 });
 
 function fadeAudio(targetVolume, duration, callback) {
@@ -314,10 +392,8 @@ function fadeAudio(targetVolume, duration, callback) {
   fadeInterval = setInterval(() => {
     currentStep++;
     let nextVolume = startVolume + (volumeStep * currentStep);
-    
     if (nextVolume > 1) nextVolume = 1;
     if (nextVolume < 0) nextVolume = 0;
-    
     audio.volume = nextVolume;
 
     if (currentStep >= steps) {
@@ -337,33 +413,51 @@ function toggleMusic() {
         icon.textContent = "❚❚";
         waves.classList.add("active");
         hintText.classList.add("playing");
+        player.setAttribute('aria-pressed', 'true');
+        player.setAttribute('aria-label', 'Pause background music');
       })
       .catch(() => {
         console.log("User interaction required for audio playback");
       });
   } else {
-    // Stop immediato senza latenza
     clearInterval(fadeInterval);
     audio.pause();
     audio.volume = 1;
     icon.textContent = "▶";
     waves.classList.remove("active");
+    player.setAttribute('aria-pressed', 'false');
+    player.setAttribute('aria-label', 'Play background music');
   }
   isPlaying = !isPlaying;
 }
 
+player.addEventListener('click', toggleMusic);
+player.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    toggleMusic();
+  }
+});
+
+// tilt effect — re-checks viewport width on resize, not just on load
 const card = document.getElementById('tilt-card');
-if (window.innerWidth > 768) {
-  document.addEventListener('mousemove', (e) => {
-    const xAxis = (window.innerWidth / 2 - e.pageX) / 75;
-    const yAxis = (window.innerHeight / 2 - e.pageY) / 75;
-    card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
-  });
-  
-  document.addEventListener('mouseleave', () => {
-    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-  });
+let tiltEnabled = window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function handleTilt(e) {
+  if (!tiltEnabled) return;
+  const xAxis = (window.innerWidth / 2 - e.pageX) / 75;
+  const yAxis = (window.innerHeight / 2 - e.pageY) / 75;
+  card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
 }
+
+document.addEventListener('mousemove', handleTilt);
+document.addEventListener('mouseleave', () => {
+  card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+});
+window.addEventListener('resize', () => {
+  tiltEnabled = window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!tiltEnabled) card.style.transform = 'none';
+});
 </script>
 
 </body>
